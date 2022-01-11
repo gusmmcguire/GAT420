@@ -6,7 +6,8 @@ public class AutonomousAgent : Agent
 {
     [SerializeField] Perception perception;
     [SerializeField] Steering steering;
-    [SerializeField, Tooltip("True if this agent should seek the target instead of run away")] bool shouldSeek;
+    [SerializeField, Tooltip("True if this agent should seek the target instead of flee")] bool shouldSeek;
+
 
     public float maxSpeed;
     public float maxForce;
@@ -18,7 +19,11 @@ public class AutonomousAgent : Agent
         Vector3 acceleration = Vector3.zero;
 
         GameObject[] gameObjects = perception.GetGameObjects();
-        if(gameObjects.Length != 0)
+        if (gameObjects.Length == 0)
+        {
+            acceleration += steering.Wander(this);
+        }
+        else
         {
             Debug.DrawLine(transform.position, gameObjects[0].transform.position);
 
@@ -33,5 +38,7 @@ public class AutonomousAgent : Agent
         transform.position += velocity * Time.deltaTime;
 
         if(velocity.sqrMagnitude > 0.1f) transform.rotation = Quaternion.LookRotation(velocity);
+
+        transform.position = Utilities.Wrap(transform.position, new Vector3(-10, -10, -10), new Vector3(10, 10, 10));
     }
 }

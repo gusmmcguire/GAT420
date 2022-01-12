@@ -15,6 +15,7 @@ public class DistancePerception : Perception
 
         foreach(Collider collider in colliders)
         {
+            if (collider.gameObject == gameObject) continue;
             if (tagName == "" || collider.CompareTag(tagName))
             {
                 Vector3 direction = (collider.transform.position - transform.position).normalized;

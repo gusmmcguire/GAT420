@@ -33,6 +33,35 @@ public class Steering : MonoBehaviour
         Vector3 forward = agent.transform.forward * wanderDistance;
         Vector3 force = CalculateSteering(agent, forward + point);
 
+        //Debug.DrawLine(transform.position, transform.position + force);
+
+
+        return force;
+    }
+
+    public Vector3 Cohesion(AutonomousAgent agent, GameObject[] targets)
+    {
+        Vector3 centerOfTargets = Vector3.zero;
+        foreach(GameObject target in targets)
+        {
+            centerOfTargets += target.transform.position;
+        }
+        centerOfTargets /= targets.Length;
+
+        Vector3 force = CalculateSteering(agent,centerOfTargets-agent.transform.position);
+        return force;
+    }
+
+    public Vector3 Seperation(AutonomousAgent agent, GameObject[] targets)
+    {
+        Vector3 centerOfTargets = Vector3.zero;
+        foreach (GameObject target in targets)
+        {
+            centerOfTargets += target.transform.position;
+        }
+        centerOfTargets /= targets.Length;
+
+        Vector3 force = CalculateSteering(agent, agent.transform.position - centerOfTargets);
         return force;
     }
 

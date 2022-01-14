@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSpeed: 3.5
   maxForce: 5.7
-  seekWeight: 1
-  fleeWeight: 1
-  cohesionWeight: 1
-  separationWeight: 1
-  alignmentWeight: 1
-  separationRadius: 1
+  seekWeight: 0
+  fleeWeight: 0
+  cohesionWeight: 1.06
+  separationWeight: 3.71
+  alignmentWeight: 1.06
+  separationRadius: 10

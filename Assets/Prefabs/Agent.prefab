@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &581242737758887957
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9177266292345866397}
+  m_Layer: 0
+  m_Name: eye
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9177266292345866397
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 581242737758887957}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.41, z: 0.592}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8331053591446338921}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8331053591446338925
 GameObject:
   m_ObjectHideFlags: 0
@@ -16,6 +46,8 @@ GameObject:
   - component: {fileID: 8331053591446338934}
   - component: {fileID: 19964668944563341}
   - component: {fileID: 8331053591446338932}
+  - component: {fileID: -132466266917571890}
+  - component: {fileID: 4656967681792571999}
   m_Layer: 0
   m_Name: Agent
   m_TagString: Agent1
@@ -36,6 +68,7 @@ Transform:
   m_Children:
   - {fileID: 8331053593052929956}
   - {fileID: 8331053592152535668}
+  - {fileID: 9177266292345866397}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -114,8 +147,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f18a298a394be924ea249eaed7209660, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  perception: {fileID: 8331053591446338934}
+  perception: {fileID: -132466266917571890}
   flockPerception: {fileID: 19964668944563341}
+  obstaclePerception: {fileID: 4656967681792571999}
   steering: {fileID: 8331053591446338932}
   agentData: {fileID: 11400000, guid: ad50181818702e541b2297a438c07e60, type: 2}
 --- !u!114 &8331053591446338934
@@ -163,6 +197,41 @@ MonoBehaviour:
   wanderDisplacement: 5.2
   wanderRadius: 1.53
   wanderDistance: 1.19
+--- !u!114 &-132466266917571890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8331053591446338925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15741d7c657a52f4784b17354ae6c612, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tagName: Player
+  raycastTransform: {fileID: 9177266292345866397}
+  distance: 10
+  angle: 180
+  numRaycast: 50
+--- !u!114 &4656967681792571999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8331053591446338925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 458c9b81259d50444ae4b44fc05be5f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distance: 10
+  radius: 1
+  numRaycast: 3
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!1 &8331053592152535671
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,6 +6,8 @@ public class AutonomousAgent : Agent
 {
     [SerializeField] Perception perception;
     [SerializeField] Perception flockPerception;
+    [SerializeField] ObstaclePerception obstaclePerception;
+
     [SerializeField] Steering steering;
     [SerializeField] AutonomousAgentData agentData;
 
@@ -38,9 +40,17 @@ public class AutonomousAgent : Agent
         if(gameObjects.Length != 0)
         {
             acceleration += steering.Cohesion(this, gameObjects) * agentData.cohesionWeight;
-            acceleration += steering.Seperation(this, gameObjects, agentData.separationRadius) * agentData.separationWeight;
+            acceleration += steering.Separation(this, gameObjects, agentData.separationRadius) * agentData.separationWeight;
             acceleration += steering.Alignment(this, gameObjects) * agentData.alignmentWeight;
         }
+
+        // obstacle avoidance
+        if (obstaclePerception.IsObstacleInFront())
+        {
+            Vector3 direction = obstaclePerception.GetOpenDirection();
+            acceleration += steering.CalculateSteering(this, direction) * agentData.obstacleWeight;
+        }
+
 
         velocity += acceleration * Time.deltaTime;
         velocity = Vector3.ClampMagnitude(velocity, maxSpeed);

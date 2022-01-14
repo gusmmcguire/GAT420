@@ -28,14 +28,10 @@ public class Steering : MonoBehaviour
     {
         wanderAngle = wanderAngle + Random.Range(-wanderDisplacement, wanderDisplacement);
         Quaternion rotation = Quaternion.AngleAxis(wanderAngle, Vector3.up);
-
         Vector3 point = rotation * (Vector3.forward * wanderRadius);
         Vector3 forward = agent.transform.forward * wanderDistance;
         Vector3 force = CalculateSteering(agent, forward + point);
-
         //Debug.DrawLine(transform.position, transform.position + force);
-
-
         return force;
     }
 
@@ -52,7 +48,7 @@ public class Steering : MonoBehaviour
         return force;
     }
 
-    public Vector3 Seperation(AutonomousAgent agent, GameObject[] targets, float radius)
+    public Vector3 Separation(AutonomousAgent agent, GameObject[] targets, float radius)
     {
         Vector3 seperation = Vector3.zero;
         foreach (GameObject target in targets)
@@ -81,7 +77,7 @@ public class Steering : MonoBehaviour
         return force;
     }
 
-    Vector3 CalculateSteering(AutonomousAgent agent, Vector3 vector)
+    public Vector3 CalculateSteering(AutonomousAgent agent, Vector3 vector)
     {
         Vector3 direction = vector.normalized;
         Vector3 desired = direction * agent.maxSpeed;

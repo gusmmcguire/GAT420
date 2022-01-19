@@ -23,7 +23,7 @@ public class ObstaclePerception : MonoBehaviour
             Ray ray = new Ray(transform.position, transform.TransformDirection(direction));
             if (!Physics.SphereCast(ray, radius, distance, layerMask))
             {
-                //Debug.DrawRay(ray.origin, ray.direction * distance, Color.white);
+                Debug.DrawRay(ray.origin, ray.direction * distance, Color.white);
                 return ray.direction;
             }
         }

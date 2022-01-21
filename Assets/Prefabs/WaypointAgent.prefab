@@ -44,10 +44,10 @@ GameObject:
   - component: {fileID: 8331053591446338922}
   - component: {fileID: 8228374522471241580}
   - component: {fileID: 408418972767669}
-  - component: {fileID: -7195103556736583687}
+  - component: {fileID: -2777997918255389547}
   m_Layer: 0
-  m_Name: SearchAgent
-  m_TagString: SearchAgent
+  m_Name: WaypointAgent
+  m_TagString: WaypointAgent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -96,7 +96,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6d37286b6f67eb647a518fa18c265c31, type: 2}
+  - {fileID: 2100000, guid: 9152019165df8d745a1f27e6ae41e85b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -161,7 +161,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementData: {fileID: 11400000, guid: abb849350bc3e5644b85644a8770966a, type: 2}
---- !u!114 &-7195103556736583687
+--- !u!114 &-2777997918255389547
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -170,7 +170,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8331053591446338925}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a64357137d965b549b42667822d62d43, type: 3}
+  m_Script: {fileID: 11500000, guid: b6abbd4b0130b0246bf06ec716c72b78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   movement: {fileID: 408418972767669}
@@ -235,7 +235,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6d37286b6f67eb647a518fa18c265c31, type: 2}
+  - {fileID: 2100000, guid: 9152019165df8d745a1f27e6ae41e85b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

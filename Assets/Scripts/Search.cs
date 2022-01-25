@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-//using System.Linq;
+using System.Linq;
 using UnityEngine;
 
 public static class Search
@@ -68,6 +68,46 @@ public static class Search
     {
         bool found = false;
 
+        var nodes = new Queue<GraphNode>();
+
+        source.visited = true;
+        nodes.Enqueue(source);
+
+        int steps = 0;
+        while(!found && nodes.Count > 0 && steps++ < maxSteps){
+            var node = nodes.Dequeue();
+
+            foreach(var edge in node.edges)
+            {
+                if (!edge.nodeB.visited)
+                {
+                    edge.nodeB.visited = true;
+                    edge.nodeB.parent = node;
+                    nodes.Enqueue(edge.nodeB);
+                }
+                if(edge.nodeB == destination)
+                {
+                    found = true;
+                    break;
+                }
+            }
+        }
+
+        path = new List<GraphNode>();
+        if (found)
+        {
+            var node = destination;
+            while (!node)
+            {
+                path.Add(node);
+                node = node.parent;
+            }
+            path.Reverse();
+        }
+        else
+        {
+            path = nodes.ToList();
+        }
 
         return found;
     }

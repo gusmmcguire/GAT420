@@ -36,7 +36,7 @@ public class PathViewer : MonoBehaviour
 			nodes.ToList().ForEach(node => node.edges.ForEach(edge => Debug.DrawLine(edge.nodeA.transform.position, edge.nodeB.transform.position)));
 
 			// reset graph nodes color
-			nodes.ToList().ForEach(node => node.GetComponent<Renderer>().material.color = Color.white);
+			nodes.ToList().ForEach(node => node.GetComponent<Renderer>().material.color = node.visited ? Color.black : Color.white);
 
 			// set all path nodes color
 			Color color = (found) ? Color.yellow : Color.magenta;
@@ -50,7 +50,7 @@ public class PathViewer : MonoBehaviour
 		GraphNode.ResetNodes();
 
 		// build path
-		found = Search.BuildPath(Search.DFS, nodeSelector.sourceNode, nodeSelector.destinationNode, ref path, steps);
+		found = Search.BuildPath(Search.BFS, nodeSelector.sourceNode, nodeSelector.destinationNode, ref path, steps);
 	}
 
 	public void ShowNodes()

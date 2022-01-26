@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Priority_Queue;
 
 public static class Search
 {
@@ -36,14 +37,14 @@ public static class Search
 
             bool forward = false;
 
-            foreach(var edge in node.edges)
+            foreach(var neighbor in node.neighbors)
             {
-                if(!edge.nodeB.visited)
+                if(!neighbor.visited)
                 {
-                    nodes.Push(edge.nodeB);
+                    nodes.Push(neighbor);
                     forward = true;
 
-                    if(edge.nodeB == destination)
+                    if(neighbor == destination)
                     {
                         found = true;
                     }
@@ -77,15 +78,15 @@ public static class Search
         while(!found && nodes.Count > 0 && steps++ < maxSteps){
             var node = nodes.Dequeue();
 
-            foreach(var edge in node.edges)
+            foreach(var neighbor in node.neighbors)
             {
-                if (!edge.nodeB.visited)
+                if (!neighbor.visited)
                 {
-                    edge.nodeB.visited = true;
-                    edge.nodeB.parent = node;
-                    nodes.Enqueue(edge.nodeB);
+                    neighbor.visited = true;
+                    neighbor.parent = node;
+                    nodes.Enqueue(neighbor);
                 }
-                if(edge.nodeB == destination)
+                if(neighbor == destination)
                 {
                     found = true;
                     break;

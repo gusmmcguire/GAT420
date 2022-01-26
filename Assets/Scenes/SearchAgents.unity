@@ -464,8 +464,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7443ce76f7db8540b6174be62309545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  steps: 1
+  steps: 30
   nodeSelector: {fileID: 454684952}
+  searchType: 0
+  info: 
 --- !u!1001 &682597690
 PrefabInstance:
   m_ObjectHideFlags: 0

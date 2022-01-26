@@ -5,63 +5,87 @@ using UnityEngine;
 
 public class PathViewer : MonoBehaviour
 {
-	[Range(0, 500)] public int steps = 0;
-	[SerializeField] GraphNodeSelector nodeSelector;
+    private enum SearchType
+    {
+        DFS,
+        BFS,
+        DIJKSTRA,
+        ASTAR
+    }
 
-	public bool visible { get; set; } = true;
+    [Range(0, 500)] public int steps = 0;
+    [SerializeField] GraphNodeSelector nodeSelector;
+    [SerializeField] SearchType searchType = SearchType.BFS;
+    [SerializeField, TextArea] string info;
 
-	int prevSteps;
-	bool found = false;
-	List<GraphNode> path = new List<GraphNode>();
+    public bool visible { get; set; } = true;
 
-	private void Start()
-	{
-		prevSteps = steps;
-	}
+    int prevSteps;
+    bool found = false;
+    List<GraphNode> path = new List<GraphNode>();
 
-	private void Update()
-	{
-		// build path
-		steps = Mathf.Clamp(steps, 0, 500);
-		if (steps != prevSteps)
-		{
-			BuildPath();
-		}
-		prevSteps = steps;
+    Search.SearchAlgorithm[] searchAlgorithms = { Search.DFS, Search.BFS, null, null };
+    Search.SearchAlgorithm searchAlgorithm;
+    SearchType prevSearchType;
 
-		if (visible)
-		{
-			// show node connections
-			var nodes = Node.GetNodes<GraphNode>();
-			nodes.ToList().ForEach(node => node.edges.ForEach(edge => Debug.DrawLine(edge.nodeA.transform.position, edge.nodeB.transform.position)));
+    private void Start()
+    {
+        prevSteps = steps;
+        searchAlgorithm = searchAlgorithms[(int)searchType];
+        prevSearchType = searchType;
+    }
 
-			// reset graph nodes color
-			nodes.ToList().ForEach(node => node.GetComponent<Renderer>().material.color = node.visited ? Color.black : Color.white);
+    private void Update()
+    {
+        //update search type
+        if(prevSearchType != searchType)
+        {
+            searchAlgorithm = searchAlgorithms[(int)searchType];
+            BuildPath();
+        }
+        prevSearchType = searchType;
 
-			// set all path nodes color
-			Color color = (found) ? Color.yellow : Color.magenta;
-			path.ForEach(node => node.GetComponent<Renderer>().material.color = color);
-		}
-	}
+        // build path
+        steps = Mathf.Clamp(steps, 0, 500);
+        if (steps != prevSteps)
+        {
+            BuildPath();
+        }
+        prevSteps = steps;
 
-	public void BuildPath()
-	{
-		// reset graph nodes
-		GraphNode.ResetNodes();
+        if (visible)
+        {
+            // show node connections
+            var nodes = Node.GetNodes<GraphNode>();
+            nodes.ToList().ForEach(node => node.neighbors.ForEach(neighbor => Debug.DrawLine(node.transform.position, neighbor.transform.position)));
 
-		// build path
-		found = Search.BuildPath(Search.BFS, nodeSelector.sourceNode, nodeSelector.destinationNode, ref path, steps);
-	}
+            // reset graph nodes color
+            nodes.ToList().ForEach(node => node.GetComponent<Renderer>().material.color = node.visited ? Color.black : Color.white);
 
-	public void ShowNodes()
-	{
-		visible = true;
-		Node.ShowNodes<GraphNode>();
-	}
+            // set all path nodes color
+            Color color = (found) ? Color.yellow : Color.magenta;
+            path.ForEach(node => node.GetComponent<Renderer>().material.color = color);
+        }
+    }
 
-	public void HideNodes()
-	{
-		visible = false;
-		Node.HideNodes<GraphNode>();
-	}
+    public void BuildPath()
+    {
+        // reset graph nodes
+        GraphNode.ResetNodes();
+
+        // build path
+        found = Search.BuildPath(searchAlgorithm, nodeSelector.sourceNode, nodeSelector.destinationNode, ref path, steps);
+    }
+
+    public void ShowNodes()
+    {
+        visible = true;
+        Node.ShowNodes<GraphNode>();
+    }
+
+    public void HideNodes()
+    {
+        visible = false;
+        Node.HideNodes<GraphNode>();
+    }
 }

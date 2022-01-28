@@ -30,21 +30,21 @@ public static class Search
 
         int steps = 0;
 
-        while(!found && nodes.Count > 0 && steps++ < maxSteps)
+        while (!found && nodes.Count > 0 && steps++ < maxSteps)
         {
             var node = nodes.Peek();
             node.visited = true;
 
             bool forward = false;
 
-            foreach(var neighbor in node.neighbors)
+            foreach (var neighbor in node.neighbors)
             {
-                if(!neighbor.visited)
+                if (!neighbor.visited)
                 {
                     nodes.Push(neighbor);
                     forward = true;
 
-                    if(neighbor == destination)
+                    if (neighbor == destination)
                     {
                         found = true;
                     }
@@ -75,10 +75,11 @@ public static class Search
         nodes.Enqueue(source);
 
         int steps = 0;
-        while(!found && nodes.Count > 0 && steps++ < maxSteps){
+        while (!found && nodes.Count > 0 && steps++ < maxSteps)
+        {
             var node = nodes.Dequeue();
 
-            foreach(var neighbor in node.neighbors)
+            foreach (var neighbor in node.neighbors)
             {
                 if (!neighbor.visited)
                 {
@@ -86,7 +87,7 @@ public static class Search
                     neighbor.parent = node;
                     nodes.Enqueue(neighbor);
                 }
-                if(neighbor == destination)
+                if (neighbor == destination)
                 {
                     found = true;
                     break;
@@ -111,5 +112,145 @@ public static class Search
         }
 
         return found;
+    }
+
+    public static bool Dijkstra(GraphNode source, GraphNode destination, ref List<GraphNode> path, int maxSteps)
+    {
+        bool found = false;
+
+        // create priority queue
+        var nodes = new SimplePriorityQueue<GraphNode>();
+
+        // set source node cost to 0
+        source.cost = 0;
+        // enqueue source node with the source cost as the priority
+        nodes.Enqueue(source, source.cost);
+
+        // set the current number of steps
+        int steps = 0;
+        while (!found && nodes.Count > 0 && steps++ < maxSteps)
+        {
+            // dequeue node
+            var node = nodes.Dequeue();
+
+            // check if node is the destination node
+            if (node == destination)
+            {
+                // set found to true
+                found = true;
+                break;
+            }
+
+            foreach (var neighbor in node.neighbors)
+            {
+                neighbor.visited = true; // not needed for algorithm (debug)
+
+                // calculate cost to neighbor = node cost + distance to neighbor
+                float cost = node.cost + node.DistanceTo(neighbor);
+                // if cost < neighbor cost, add to priority queue
+                if (cost < neighbor.cost)
+                {
+                    // set neighbor cost to cost
+                    neighbor.cost = cost;
+                    // set neighbor parent to node
+                    neighbor.parent = node;
+                    // enqueue without duplicates, neighbor with cost as priority
+                    nodes.EnqueueWithoutDuplicates(neighbor, cost);
+                }
+            }
+        }
+
+        if (found)
+        {
+            // create path from destination to source using node parents
+            path = new List<GraphNode>();
+            CreatePathFromParents(destination, ref path);
+        }
+        else
+        {
+            path = nodes.ToList();
+        }
+
+
+        return found;
+    }
+
+    public static bool AStar(GraphNode source, GraphNode destination, ref List<GraphNode> path, int maxSteps)
+    {
+        bool found = false;
+        // create priority queue
+        var nodes = new SimplePriorityQueue<GraphNode>();
+
+        // set source cost to 0
+        source.cost = 0;
+        // set heuristic to the distance of the source to the destination
+        float heuristic = Vector3.Distance(source.transform.position, destination.transform.position);
+        // enqueue source node with the source cost + source heuristic as the priority
+        nodes.Enqueue(source, source.cost + heuristic);
+
+        // set the current number of steps
+        int steps = 0;
+        while (!found && nodes.Count > 0 && steps++ < maxSteps)
+        {
+            // dequeue node
+            var node = nodes.Dequeue();
+
+            // check if node is the destination node
+            if (node == destination)
+            {
+                // set found to true
+                found = true;
+                break;
+            }
+
+            foreach (var neighbor in node.neighbors)
+            {
+                neighbor.visited = true; // not needed for algorithm (debug)
+
+                // calculate cost to neighbor = node cost + distance to neighbor				
+                float cost = node.cost + node.DistanceTo(neighbor);
+                // if cost < neighbor cost, add to priority queue
+                if (cost < neighbor.cost)
+                {
+                    // set neighbor cost to cost
+                    neighbor.cost = cost;
+                    // set neighbor parent to node
+                    neighbor.parent = node;
+                    // calculate heuristic = distance from neighbor to destination
+                    heuristic = Vector3.Distance(neighbor.transform.position, destination.transform.position);
+
+                    // enqueue without duplicates, neighbor cost + heuristic as priority
+                    // the closer the neighbor to the destination the higher the priority
+                    nodes.EnqueueWithoutDuplicates(neighbor, cost + heuristic);
+                }
+            }
+        }
+
+        if (found)
+        {
+            // create path from destination to source using node parents
+            path = new List<GraphNode>();
+            CreatePathFromParents(destination, ref path);
+        }
+        else
+        {
+            path = nodes.ToList();
+        }
+
+        return found;
+    }
+
+    public static void CreatePathFromParents(GraphNode node, ref List<GraphNode> path)
+    {
+        // while node not null
+        while (node != null)
+        {
+            // add node to list path
+            path.Add(node);
+            // set node to node parent
+            node = node.parent;
+        }
+        // reverse path
+        path.Reverse();
     }
 }

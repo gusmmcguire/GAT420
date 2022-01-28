@@ -16,15 +16,17 @@ public class PathViewer : MonoBehaviour
     [Range(0, 500)] public int steps = 0;
     [SerializeField] GraphNodeSelector nodeSelector;
     [SerializeField] SearchType searchType = SearchType.BFS;
+    [SerializeField] bool visible = true;
     [SerializeField, TextArea] string info;
 
-    public bool visible { get; set; } = true;
+
+
 
     int prevSteps;
     bool found = false;
     List<GraphNode> path = new List<GraphNode>();
 
-    Search.SearchAlgorithm[] searchAlgorithms = { Search.DFS, Search.BFS, null, null };
+    Search.SearchAlgorithm[] searchAlgorithms = { Search.DFS, Search.BFS, Search.Dijkstra, Search.AStar };
     Search.SearchAlgorithm searchAlgorithm;
     SearchType prevSearchType;
 
@@ -53,10 +55,12 @@ public class PathViewer : MonoBehaviour
         }
         prevSteps = steps;
 
+        var nodes = Node.GetNodes<GraphNode>();
+        nodes.ToList().ForEach(node => node.GetComponent<Renderer>().enabled = visible);
+
         if (visible)
         {
             // show node connections
-            var nodes = Node.GetNodes<GraphNode>();
             nodes.ToList().ForEach(node => node.neighbors.ForEach(neighbor => Debug.DrawLine(node.transform.position, neighbor.transform.position)));
 
             // reset graph nodes color

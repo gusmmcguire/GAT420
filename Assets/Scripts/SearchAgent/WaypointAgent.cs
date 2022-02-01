@@ -7,6 +7,6 @@ public class WaypointAgent : SearchAgent
     void Start()
     {
         //targetNode = (initialNode != null) ? initialNode : WaypointNode.GetRandomWaypoint();
-        targetNode = (initialNode != null) ? initialNode : Node.GetRandomNode<WaypointNode>();
+        targetNode = (initialNode) ? initialNode : Node.GetRandomNode<WaypointNode>();
     }
 }

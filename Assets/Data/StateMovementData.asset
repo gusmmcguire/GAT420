@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2194c0239f8c164bac0893d425dd407, type: 3}
   m_Name: StateMovementData
   m_EditorClassIdentifier: 
-  maxSpeed: 3.5
-  minSpeed: 0.8
+  maxSpeed: 2
+  minSpeed: 1
   maxForce: 80
+  turnRate: 360
   orientToMovement: 1

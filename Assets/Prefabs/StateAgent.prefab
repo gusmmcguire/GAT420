@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 6365094101675928263}
   - component: {fileID: 1976608131090163813}
   - component: {fileID: 7564145914869672308}
+  - component: {fileID: 1093494194188190052}
   m_Layer: 0
   m_Name: StateAgent
   m_TagString: SearchAgent
@@ -137,7 +138,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 2
-  m_BaseOffset: 1
+  m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!114 &1976608131090163813
@@ -153,9 +154,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movement: {fileID: 7564145914869672308}
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 0
+  animator: {fileID: 3153644189475101396}
+  path: {fileID: 1093494194188190052}
 --- !u!114 &7564145914869672308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,6 +169,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementData: {fileID: 11400000, guid: 14b1dc64ef9788f4d8438601df7f1ece, type: 2}
+--- !u!114 &1093494194188190052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 152972451329313257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d6df15f8d42d084ba99df8f110b5a06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pathNodes: {fileID: 0}
 --- !u!1 &333827298695579304
 GameObject:
   m_ObjectHideFlags: 0
@@ -193,7 +206,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 333827298695579304}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.41, z: 0.592}
+  m_LocalPosition: {x: 0, y: 2, z: 0.592}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 152972451329313261}
@@ -216,7 +229,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 050aac41c75056f4fbf9e85e915f3987, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 050aac41c75056f4fbf9e85e915f3987, type: 3}
       propertyPath: m_LocalPosition.z
@@ -254,10 +267,19 @@ PrefabInstance:
       propertyPath: m_Name
       value: vampire_a_lusth
       objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 050aac41c75056f4fbf9e85e915f3987, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: b37785768ddaa6d48885e4fa565d085d, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 050aac41c75056f4fbf9e85e915f3987, type: 3}
 --- !u!4 &9017282304529039534 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 050aac41c75056f4fbf9e85e915f3987, type: 3}
+  m_PrefabInstance: {fileID: 8838713423754946373}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &3153644189475101396 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 050aac41c75056f4fbf9e85e915f3987, type: 3}
   m_PrefabInstance: {fileID: 8838713423754946373}
   m_PrefabAsset: {fileID: 0}

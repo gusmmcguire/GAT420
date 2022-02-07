@@ -16,7 +16,8 @@ GameObject:
   - component: {fileID: 6365094101675928263}
   - component: {fileID: 1976608131090163813}
   - component: {fileID: 7564145914869672308}
-  - component: {fileID: 1093494194188190052}
+  - component: {fileID: 1952719953}
+  - component: {fileID: 1437149310978992306}
   m_Layer: 0
   m_Name: StateAgent
   m_TagString: SearchAgent
@@ -155,7 +156,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movement: {fileID: 7564145914869672308}
   animator: {fileID: 3153644189475101396}
-  path: {fileID: 1093494194188190052}
+  perception: {fileID: 1437149310978992306}
+  pathFollower: {fileID: 1952719953}
+  enemySeen:
+    value: 0
+  health:
+    value: 0
+  timer:
+    value: 0
 --- !u!114 &7564145914869672308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,7 +177,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementData: {fileID: 11400000, guid: 14b1dc64ef9788f4d8438601df7f1ece, type: 2}
---- !u!114 &1093494194188190052
+--- !u!114 &1952719953
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -178,10 +186,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 152972451329313257}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d6df15f8d42d084ba99df8f110b5a06, type: 3}
+  m_Script: {fileID: 11500000, guid: 4582ab44f4aa9ee4bbd361ce20ddecdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   pathNodes: {fileID: 0}
+--- !u!114 &1437149310978992306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 152972451329313257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15741d7c657a52f4784b17354ae6c612, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tagName: Player
+  raycastTransform: {fileID: 926907125203946971}
+  distance: 4
+  angle: 80
+  numRaycast: 20
 --- !u!1 &333827298695579304
 GameObject:
   m_ObjectHideFlags: 0
@@ -206,7 +231,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 333827298695579304}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: 0.592}
+  m_LocalPosition: {x: 0, y: 1.12, z: 0.323}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 152972451329313261}

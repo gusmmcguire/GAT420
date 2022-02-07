@@ -142,7 +142,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!136 &133022914
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -214,7 +214,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 133022913}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.05, y: 1, z: 0}
+  m_LocalPosition: {x: -16.2, y: 1, z: 15.05}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2002,6 +2002,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1952719953, guid: 47d520e5f644687418c3e2e6ab7850f0, type: 3}
+      propertyPath: pathNodes
+      value: 
+      objectReference: {fileID: 1491929109}
     - target: {fileID: 152972451329313257, guid: 47d520e5f644687418c3e2e6ab7850f0, type: 3}
       propertyPath: m_Name
       value: StateAgent
@@ -2050,9 +2054,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1093494194188190052, guid: 47d520e5f644687418c3e2e6ab7850f0, type: 3}
-      propertyPath: pathNodes
-      value: 
-      objectReference: {fileID: 1491929109}
+    - target: {fileID: 1437149310978992306, guid: 47d520e5f644687418c3e2e6ab7850f0, type: 3}
+      propertyPath: numRaycast
+      value: 50
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 47d520e5f644687418c3e2e6ab7850f0, type: 3}

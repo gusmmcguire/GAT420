@@ -4,29 +4,51 @@ using UnityEngine;
 
 public class StateAgent : Agent
 {
-    public AgentPath path;
+    [SerializeField] Perception perception;
+
+    public PathFolower pathFollower;
     public StateMachine stateMachine = new StateMachine();
-    
+
+    public BoolRef enemySeen;
+    public IntRef health;
+    public FloatRef timer;
+
+    public GameObject enemy { get; set; }
 
     void Start()
     {
         stateMachine.AddState(new IdleState(this, "idle"));
         stateMachine.AddState(new PatrolState(this, "patrol"));
+        stateMachine.AddState(new ChaseState(this, "chase"));
+
+        stateMachine.AddTransition("idle", new BoolTransition(enemySeen, true), "chase");
+        stateMachine.AddTransition("idle", new FloatTransition(timer, Transition.Predicate.LESS, 0), "chase");
+        stateMachine.AddTransition("patrol", new BoolTransition(enemySeen, true), "chase");
+        stateMachine.AddTransition("chase", new BoolTransition(enemySeen, false), "idle");
+
         stateMachine.SetState(stateMachine.StateFromName("idle"));
     }
 
     void Update()
     {
+        //update parameters
+        var gameObjects = perception.GetGameObjects();
+        enemySeen.value = (gameObjects.Length != 0);
+        enemy = gameObjects.Length != 0 ? gameObjects[0] : null;
+        timer.value -= Time.deltaTime;
+
         stateMachine.Update();
 
-        if (movement.velocity.magnitude > 0.5f)
+        animator.SetFloat("Speed", movement.velocity.magnitude);
+
+        /*if (movement.velocity.magnitude > 0.5f)
         {
             animator.SetBool("IsWalking", true);
         }
         else
         {
             if (animator.GetBool("IsWalking")) animator.SetBool("IsWalking", false);
-        }
+        }*/
     }
     private void OnGUI()
     {

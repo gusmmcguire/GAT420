@@ -12,7 +12,8 @@ public class IdleState : State
 
     public override void OnEnter()
     {
-        timer = Time.time + 2;
+        owner.timer.value = 2;
+        owner.movement.Stop();
         Debug.Log(name + " enter");
     }
 

@@ -22,7 +22,8 @@ public class ChaseState : State
 
     public override void OnUpdate()
     {
-        owner.movement.MoveTowards(owner.enemy.transform.position);
+
+        if(owner.enemy != null) owner.movement.MoveTowards(owner.enemy.transform.position);
         Debug.Log(name + " update");
         
     }

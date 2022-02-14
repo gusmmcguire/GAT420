@@ -14,18 +14,14 @@ public class IdleState : State
     {
         owner.timer.value = 2;
         owner.movement.Stop();
-        Debug.Log(name + " enter");
     }
 
     public override void OnExit()
     {
-        Debug.Log(name + " exit");
     }
 
     public override void OnUpdate()
     {
-        Debug.Log(name + " update");
-        //timer -= Time.deltaTime;
         if (Time.time > timer)
         {
             owner.stateMachine.SetState(owner.stateMachine.StateFromName("patrol"));

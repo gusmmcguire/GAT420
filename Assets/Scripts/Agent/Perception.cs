@@ -4,6 +4,8 @@ using UnityEngine;
 
 public abstract class Perception : MonoBehaviour
 {
+    [Range(1, 40)] public float distance = 1;
+    [Range(0, 180)] public float angle = 0;
     public string tagName;
 
     public abstract GameObject[] GetGameObjects();

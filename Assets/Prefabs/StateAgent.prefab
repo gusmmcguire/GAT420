@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 1976608131090163813}
   - component: {fileID: 7564145914869672308}
   - component: {fileID: 1952719953}
-  - component: {fileID: 1437149310978992306}
+  - component: {fileID: 1082423347}
   m_Layer: 0
   m_Name: StateAgent
   m_TagString: SearchAgent
@@ -156,12 +156,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movement: {fileID: 7564145914869672308}
   animator: {fileID: 3153644189475101396}
-  perception: {fileID: 1437149310978992306}
+  perception: {fileID: 1082423347}
   pathFollower: {fileID: 1952719953}
   enemySeen:
     value: 0
-  health:
+  enemyDistance:
     value: 0
+  health:
+    value: 10
   timer:
     value: 0
 --- !u!114 &7564145914869672308
@@ -190,7 +192,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pathNodes: {fileID: 0}
---- !u!114 &1437149310978992306
+--- !u!114 &1082423347
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -199,14 +201,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 152972451329313257}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 15741d7c657a52f4784b17354ae6c612, type: 3}
+  m_Script: {fileID: 11500000, guid: 5f9a9b4498617bc40bf2dd840e95364c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  distance: 5.6
+  angle: 80
   tagName: Player
   raycastTransform: {fileID: 926907125203946971}
-  distance: 4
-  angle: 80
-  numRaycast: 20
+  numRaycast: 50
+  radius: 1
 --- !u!1 &333827298695579304
 GameObject:
   m_ObjectHideFlags: 0

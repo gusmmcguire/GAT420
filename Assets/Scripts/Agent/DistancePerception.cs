@@ -4,14 +4,11 @@ using UnityEngine;
 
 public class DistancePerception : Perception
 {
-    [SerializeField] float radius = 5;
-    [SerializeField] float maxAngle = 5;
-
     public override GameObject[] GetGameObjects()
     {
         List<GameObject> result = new List<GameObject>();
 
-        Collider[] colliders = Physics.OverlapSphere(transform.position, radius);
+        Collider[] colliders = Physics.OverlapSphere(transform.position, distance);
 
         foreach(Collider collider in colliders)
         {
@@ -22,7 +19,7 @@ public class DistancePerception : Perception
                 float cos = Vector3.Dot(transform.forward, direction);
                 float angle = Mathf.Acos(cos) * Mathf.Rad2Deg;
 
-                if(angle <= maxAngle)
+                if(angle <= this.angle)
                 {
                     result.Add(collider.gameObject);
                 }

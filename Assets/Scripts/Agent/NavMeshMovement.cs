@@ -10,7 +10,7 @@ public class NavMeshMovement : Movement
 
     [SerializeField] NavMeshAgent navMeshAgent;
 
-    
+    public override Vector3 destination { get => navMeshAgent.destination; set => navMeshAgent.destination = value; }
 
     void Update()
     {

@@ -33,9 +33,6 @@ public class FloatCondition : Condition
 			case Predicate.GREATER:
 				result = (parameter > condition);
 				break;
-			case Predicate.GREATER_EQUAL:
-				result = (parameter <= condition);
-				break;
 			default:
 				break;
 		}

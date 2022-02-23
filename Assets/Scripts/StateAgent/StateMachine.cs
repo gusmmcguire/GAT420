@@ -23,6 +23,7 @@ public class StateMachine
                 break;
             }
         }
+
         //update state
         currentState.OnUpdate();
     }

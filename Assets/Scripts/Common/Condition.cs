@@ -9,9 +9,7 @@ public abstract class Condition
 		EQUAL,
 		LESS,
 		LESS_EQUAL,
-		GREATER,
-		GREATER_EQUAL
+		GREATER
 	}
-
 	public abstract bool IsTrue();
 }

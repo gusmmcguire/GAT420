@@ -18,9 +18,10 @@ GameObject:
   - component: {fileID: 7564145914869672308}
   - component: {fileID: 1952719953}
   - component: {fileID: 1082423347}
+  - component: {fileID: 1205317614808080310}
   m_Layer: 0
   m_Name: StateAgent
-  m_TagString: SearchAgent
+  m_TagString: Agent1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -163,7 +164,7 @@ MonoBehaviour:
   enemyDistance:
     value: 0
   health:
-    value: 10
+    value: 100
   timer:
     value: 0
 --- !u!114 &7564145914869672308
@@ -179,6 +180,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementData: {fileID: 11400000, guid: 14b1dc64ef9788f4d8438601df7f1ece, type: 2}
+  navMeshAgent: {fileID: 6365094101675928263}
 --- !u!114 &1952719953
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -192,6 +194,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pathNodes: {fileID: 0}
+  pathName: PatrolPath1
 --- !u!114 &1082423347
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -206,10 +209,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   distance: 5.6
   angle: 80
-  tagName: Player
+  tagName: Agent2
   raycastTransform: {fileID: 926907125203946971}
   numRaycast: 50
   radius: 1
+--- !u!114 &1205317614808080310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 152972451329313257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5263656af6586e241a8108e5713ba1d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tagName: Agent2
+  distance: 3
+  damage: 20
 --- !u!1 &333827298695579304
 GameObject:
   m_ObjectHideFlags: 0

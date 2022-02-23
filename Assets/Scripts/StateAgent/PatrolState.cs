@@ -11,6 +11,7 @@ public class PatrolState : State
 
     public override void OnEnter()
     {
+        owner.timer.value = Random.Range(5, 10);
         owner.pathFollower.targetNode = owner.pathFollower.pathNodes.GetNearestNode(owner.transform.position);
         owner.movement.Resume();
 
@@ -25,11 +26,5 @@ public class PatrolState : State
     {
 
         owner.pathFollower.Move(owner.movement);
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            owner.stateMachine.SetState(owner.stateMachine.StateFromName("idle"));
-
-        }
     }
 }

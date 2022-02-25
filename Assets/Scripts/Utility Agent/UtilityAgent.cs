@@ -12,6 +12,9 @@ public class UtilityAgent : Agent
     Need[] needs;
     UtilityObject activeUitlityObject = null;
 
+    static readonly float MIN_SCORE = 0.1f;
+    public bool isUsingUtilityObject { get { return activeUitlityObject != null; } }
+
     public float happiness
     {
         get
@@ -43,18 +46,60 @@ public class UtilityAgent : Agent
             {
                 if(go.TryGetComponent<UtilityObject>(out UtilityObject uo))
                 {
-                    utilityObjects.Add(uo);
                     uo.visible = true;
                     uo.score = GetUtilityObjectScore(uo);
+                    if(uo.score > MIN_SCORE) utilityObjects.Add(uo);
                 }
             }
+            activeUitlityObject = (utilityObjects.Count() > 0) ? utilityObjects[0] : null;
+            if(activeUitlityObject != null)
+            {
+                StartCoroutine(ExecuteUtilityObject(activeUitlityObject));
+            }
         }
+
     }
 
     void LateUpdate()
     {
         meter.slider.value = happiness;
         meter.worldPosition = transform.position + Vector3.up * 4;
+    }
+
+    IEnumerator ExecuteUtilityObject(UtilityObject uO)
+    {
+        movement.MoveTowards(uO.location.position);
+        while(Vector3.Distance(transform.position, uO.location.position) > 0.5f)
+        {
+            Debug.DrawLine(transform.position, uO.location.position);
+            yield return null;
+        }
+        print("start effect");
+
+        if (uO.effect != null) uO.effect.SetActive(true);
+        yield return new WaitForSeconds(uO.duration);
+
+        print("stop effect");
+        if (uO.effect != null) uO.effect.SetActive(false);
+
+        ApplyUtilityObject(uO);
+
+        activeUitlityObject = null;
+
+        yield return null;
+    }
+
+    void ApplyUtilityObject(UtilityObject utilityObject)
+    {
+        foreach (var effector in utilityObject.effectors)
+        {
+            Need need = GetNeedByType(effector.type);
+            if(need != null)
+            {
+                need.input += effector.change;
+                need.input = Mathf.Clamp(need.input, -1, 1);
+            }
+        }
     }
 
     float GetUtilityObjectScore(UtilityObject uO)

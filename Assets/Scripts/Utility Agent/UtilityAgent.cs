@@ -8,6 +8,7 @@ public class UtilityAgent : Agent
 
     [SerializeField] Perception perception;
     [SerializeField] MeterUI meter;
+    [SerializeField] bool shouldChooseHighest = true;
 
     Need[] needs;
     UtilityObject activeUitlityObject = null;
@@ -20,7 +21,7 @@ public class UtilityAgent : Agent
         get
         {
             float totalMotive = 0;
-            foreach(var need in needs)
+            foreach (var need in needs)
             {
                 totalMotive += need.motive;
             }
@@ -38,26 +39,49 @@ public class UtilityAgent : Agent
     {
         animator.SetFloat("speed", movement.velocity.magnitude);
 
-        if(activeUitlityObject == null)
+        if (activeUitlityObject == null)
         {
             var gameObjects = perception.GetGameObjects();
             List<UtilityObject> utilityObjects = new List<UtilityObject>();
-            foreach(var go in gameObjects)
+            foreach (var go in gameObjects)
             {
-                if(go.TryGetComponent<UtilityObject>(out UtilityObject uo))
+                if (go.TryGetComponent<UtilityObject>(out UtilityObject uo))
                 {
                     uo.visible = true;
                     uo.score = GetUtilityObjectScore(uo);
-                    if(uo.score > MIN_SCORE) utilityObjects.Add(uo);
+                    if (uo.score > MIN_SCORE) utilityObjects.Add(uo);
                 }
             }
-            activeUitlityObject = (utilityObjects.Count() > 0) ? utilityObjects[0] : null;
-            if(activeUitlityObject != null)
+            //activeUitlityObject = (utilityObjects.Count() > 0) ? utilityObjects[0] : null;
+            //USE RANDOM IF TIMER IS UP
+            bool allCooldowns = true;
+            foreach (UtilityObject uO in utilityObjects)
+            {
+                if (uO.cooldown <= 0)
+                {
+                    allCooldowns = false;
+                    break;
+                }
+            }
+            if (!allCooldowns)
+            {
+                do
+                {
+
+                    activeUitlityObject = (utilityObjects.Count() > 0) ?
+                        ((activeUitlityObject == null) ?
+                            GetHighestUtilityObject(utilityObjects.ToArray())
+                            : GetRandomUtilityObject(utilityObjects.ToArray()))
+                        : null;
+
+                } while (activeUitlityObject != null && activeUitlityObject.cooldown > 0);
+            }
+
+            if (activeUitlityObject != null)
             {
                 StartCoroutine(ExecuteUtilityObject(activeUitlityObject));
             }
         }
-
     }
 
     void LateUpdate()
@@ -69,18 +93,19 @@ public class UtilityAgent : Agent
     IEnumerator ExecuteUtilityObject(UtilityObject uO)
     {
         movement.MoveTowards(uO.location.position);
-        while(Vector3.Distance(transform.position, uO.location.position) > 0.5f)
+        while (Vector3.Distance(transform.position, uO.location.position) > 0.5f)
         {
             Debug.DrawLine(transform.position, uO.location.position);
             yield return null;
         }
-        print("start effect");
+        //print("start effect");
 
         if (uO.effect != null) uO.effect.SetActive(true);
         yield return new WaitForSeconds(uO.duration);
 
-        print("stop effect");
+        //print("stop effect");
         if (uO.effect != null) uO.effect.SetActive(false);
+        uO.cooldown = 5;
 
         ApplyUtilityObject(uO);
 
@@ -94,7 +119,7 @@ public class UtilityAgent : Agent
         foreach (var effector in utilityObject.effectors)
         {
             Need need = GetNeedByType(effector.type);
-            if(need != null)
+            if (need != null)
             {
                 need.input += effector.change;
                 need.input = Mathf.Clamp(need.input, -1, 1);
@@ -106,10 +131,10 @@ public class UtilityAgent : Agent
     {
         float score = 0;
 
-        foreach(var effector in uO.effectors)
+        foreach (var effector in uO.effectors)
         {
             Need need = GetNeedByType(effector.type);
-            if(need != null)
+            if (need != null)
             {
                 float futureNeed = need.getMotive(need.input + effector.change);
                 score += need.motive - futureNeed;
@@ -137,4 +162,57 @@ public class UtilityAgent : Agent
         }
         //GUI.Label(new Rect(screen.x + 20, Screen.height - screen.y - offset, 300, 20), mood.ToString());
     }*/
+
+    UtilityObject GetHighestUtilityObject(UtilityObject[] utilityObjects)
+    {
+        UtilityObject highestUtilityObject = null;
+        float highestScore = MIN_SCORE;
+        foreach (var utilityObject in utilityObjects)
+        {
+            // get the score of the utility object
+            // if score > highest score then set new highest score and highest utility object
+            if (GetUtilityObjectScore(utilityObject) > highestScore)
+            {
+                highestScore = GetUtilityObjectScore(utilityObject);
+                highestUtilityObject = utilityObject;
+            }
+        }
+
+        return highestUtilityObject;
+    }
+
+    UtilityObject GetRandomUtilityObject(UtilityObject[] utilityObjects)
+    {
+        // evaluate all utility objects
+        float[] scores = new float[utilityObjects.Length];
+        float totalScore = 0;
+        for (int i = 0; i < utilityObjects.Length; i++)
+        {
+            // <get the score of the utility objects[i]>
+            // <set the scores[i] to the score>
+            // <add score to total score>
+            scores[i] = GetUtilityObjectScore(utilityObjects[i]);
+            totalScore += scores[i];
+        }
+
+        // select random utility object based on score
+        // the higher the score the greater the chance of being randomly selected
+
+        // <float random = value between 0 and totalScore>
+        float random = Random.Range(0, totalScore);
+        for (int i = 0; i < scores.Length; i++)
+        {
+            // <check if random value is less than scores[i]>
+            // <return utilityObjects[i] if less than>
+            // <subtract scores[i] from random value>
+            if (random < scores[i])
+            {
+                return utilityObjects[i];
+            }
+            random -= scores[i];
+        }
+
+        return null;
+    }
+
 }

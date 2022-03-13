@@ -16,6 +16,7 @@ public class UtilityObject : MonoBehaviour
     public Transform location;
     [SerializeField] MeterUI meterPrefab;
     public GameObject effect;
+    public float cooldown = 0;
 
     public Effector[] effectors;
     public Dictionary<Need.Type, float> registry = new Dictionary<Need.Type, float>();
@@ -37,6 +38,11 @@ public class UtilityObject : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        cooldown = (cooldown <= 0) ? 0 : cooldown - Time.deltaTime;
+    }
+
     private void LateUpdate()
     {
         meter.gameObject.SetActive(visible);
@@ -55,4 +61,6 @@ public class UtilityObject : MonoBehaviour
     {
         return registry.ContainsKey(type);
     }
+
+
 }
